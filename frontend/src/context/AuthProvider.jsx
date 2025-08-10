@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
+import * as api from "../utils"
 
-function AuthProvider({child}) {
+export default function AuthProvider({child}) {
     const authContext = createContext(null);
 
     const [user,setUser] = useState(null);
@@ -62,6 +63,4 @@ function AuthProvider({child}) {
     </>
   )
 }
-
-export default AuthProvider
 export const useAuth = () => useContext(authContext)
