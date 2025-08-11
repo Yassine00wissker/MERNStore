@@ -26,7 +26,7 @@ const products = [
 ]
 
 const getProducts = async (req,res) => {
-    res.json(products)
+    res.send(products)
 };
 
 const getProductById = async (req,res) => {

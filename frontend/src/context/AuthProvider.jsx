@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import * as api from "../utils"
 
 export default function AuthProvider({child}) {
     const authContext = createContext(null);
