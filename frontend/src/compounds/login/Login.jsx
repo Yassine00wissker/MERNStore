@@ -1,131 +1,102 @@
-import React, { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthProvider";
-
+import axios from 'axios';
+import React, { useState } from 'react';
+import { FaEye, FaEyeSlash } from 'react-icons/fa'; // FontAwesome icons
+import { Link, useNavigate } from 'react-router-dom';
+import Api from '../../services/Api';
 function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [remember, setRemember] = useState(false);
-  const [error, setError] = useState({});
-  const [loading, setLoading] = useState(false);
-  
-  const { login } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.form?.pathname || "/dashboard";
 
-  const validate = () => {
-    const e = {}
-    if(!/\s+@+\s+\.\s+/.test(email)){
-      e.email = "Enter a valid email";
-    }
-    if(password.length < 6) e.password = "Password must be 6+ chars";
-    setError(e);
-    return Object.keys(e).length === 0
-  }
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate()
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(!validate()) return;
-    setLoading(true);
-    const res = await login(email, password, remember);
-    setLoading(false)
-    if(res.ok) navigate(from, { replace: true });
-    else setError({ server: res.message || "Login failed"})
+    try{
+      const res = await Api.post('/users/login',{
+        email,
+        password,
+      });
+      console.log("login done")
+
+      localStorage.setItem("token", res.data.token)
+
+      navigate("/products")
+
+    }catch(error) {
+      console.error("login error" ,error.response?.data || error.msg)
+    }
   }
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
-      <div
-        className="card shadow-lg border-0 p-4"
-        style={{ width: "100%", maxWidth: "400px", borderRadius: "15px" }}
-      >
-        <h2 className="text-center mb-4 text-primary fw-bold">Welcome Back</h2>
-
+    <div className="d-flex justify-content-center align-items-center vh-100 bg-light"
+      style={{
+        backgroundImage: 'url("../../../public/images (3).jpg")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}>
+      <div className="card shadow-sm p-4" style={{
+        width: '400px',
+        backgroundColor: 'rgba(86, 3, 158, 0.1)',
+        backdropFilter: 'blur(5px)',
+        borderRadius: '20px',
+      }}>
+        <h1 className="card-title text-center mb-4">Login</h1>
         <form onSubmit={handleSubmit}>
-          {/* Email */}
           <div className="mb-3">
-            <label htmlFor="email" className="form-label fw-semibold">
-              Email Address
-            </label>
-            <div className="input-group">
-              <span className="input-group-text bg-white">
-                <i className="bi bi-envelope-fill text-primary"></i>
-              </span>
-              <input
-                type="email"
-                className={`form-control ${errors.email ? "is-invalid" : ""}`}
-                id="email"
-                placeholder="you@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-              <div className="invalid-feedback">{error.email}</div>
-            </div>
+            <label htmlFor="email" className="form-label fs-4">Email address</label>
+            <input
+              type="email"
+              className="form-control ps-3"
+              id="email"
+              placeholder="Enter email"
+            />
+            <div className="form-text">We'll never share your email with anyone else.</div>
           </div>
 
-          {/* Password */}
-          <div className="mb-3">
-            <label htmlFor="password" className="form-label fw-semibold">
-              Password
-            </label>
-            <div className="input-group">
-              <span className="input-group-text bg-white">
-                <i className="bi bi-lock-fill text-primary"></i>
-              </span>
-              <input
-                type={showPassword ? "text" : "password"}
-                className={`form-control ${errors.password ? "is-invalid" : ""}`}
-                id="password"
-                placeholder="your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-               <span className="input-group-text bg-white" style={{ cursor: "pointer" }} onClick={() => setShowPassword(!showPassword)}>
-                <i className={`bi ${showPassword ? "bi-eye-slash-fill" : "bi-eye-fill"}`}></i>
-              </span>
-              <div className="invalid-feedback">{errors.password}</div>
-            </div>
+          <div className="mb-3 position-relative">
+            <label htmlFor="password" className="form-label fs-4">Password</label>
+            <input
+              type={showPassword ? 'text' : 'password'}
+              className="form-control ps-3"
+              id="password"
+              placeholder="Password"
+            />
+            {/* Eye icon */}
+            <span
+              onClick={togglePassword}
+              style={{
+                position: 'absolute',
+                top: '55%',
+                right: '12px',
+                cursor: 'pointer',
+                color: '#515960ff'
+              }}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
           </div>
 
-          {/* Remember me */}
           <div className="form-check mb-3">
             <input
               type="checkbox"
               className="form-check-input"
-              id="remember"
-              checked={remember}
-              onChange={(e) => setRemember(e.target.checked)}
+              id="rememberMe"
             />
-            <label className="form-check-label" htmlFor="remember">
+            <label className="form-check-label" htmlFor="rememberMe">
               Remember me
             </label>
           </div>
 
-          {/* Submit button */}
-          <button
-            type="submit"
-            className="btn btn-primary w-100 fw-semibold"
-            style={{ transition: "0.3s" }}
-            onMouseOver={(e) => (e.target.style.backgroundColor = "#0b5ed7")}
-            onMouseOut={(e) => (e.target.style.backgroundColor = "")}
-          >
-            Login
+          <button type="submit" className="btn btn-primary w-100">
+            Submit
           </button>
+          <div className='fs-5'><span className='text-muted'>alredy have an account &nbsp;<Link to={"/register"} className='text-primary fs-3' style={{ cursor: "pointer" }}>Registre</Link></span></div>
         </form>
-
-        {/* Signup Link */}
-        <div className="text-center mt-3">
-          <small>
-            Don’t have an account?{" "}
-            <Link to="/signup" className="text-decoration-none text-primary fw-semibold">
-              Sign Up
-            </Link>
-          </small>
-        </div>
       </div>
     </div>
   );
