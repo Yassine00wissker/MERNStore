@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; // FontAwesome icons
 import { Link, useNavigate } from 'react-router-dom';
@@ -9,7 +8,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false);
-
+  const [rememberMe, setRememberMe] = useState(false);
   const togglePassword = () => {
     setShowPassword(!showPassword);
   };
@@ -22,13 +21,15 @@ function Login() {
         password,
       });
       console.log("login done")
+      if(rememberMe) localStorage.setItem("token", res.data.token)
+      else sessionStorage.setItem("token", res.data.token)
 
-      localStorage.setItem("token", res.data.token)
-
+      
       navigate("/products")
 
     }catch(error) {
       console.error("login error" ,error.response?.data || error.msg)
+      alert("Login failed. Please check your credentials.", error.msg)
     }
   }
 
@@ -38,6 +39,7 @@ function Login() {
         backgroundImage: 'url("../../../public/images (3).jpg")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
       }}>
       <div className="card shadow-sm p-4" style={{
         width: '400px',
@@ -54,6 +56,8 @@ function Login() {
               className="form-control ps-3"
               id="email"
               placeholder="Enter email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <div className="form-text">We'll never share your email with anyone else.</div>
           </div>
@@ -65,6 +69,8 @@ function Login() {
               className="form-control ps-3"
               id="password"
               placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             {/* Eye icon */}
             <span
@@ -86,6 +92,8 @@ function Login() {
               type="checkbox"
               className="form-check-input"
               id="rememberMe"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
             />
             <label className="form-check-label" htmlFor="rememberMe">
               Remember me
@@ -95,7 +103,7 @@ function Login() {
           <button type="submit" className="btn btn-primary w-100">
             Submit
           </button>
-          <div className='fs-5'><span className='text-muted'>alredy have an account &nbsp;<Link to={"/register"} className='text-primary fs-3' style={{ cursor: "pointer" }}>Registre</Link></span></div>
+          <div className='fs-5'><span className='text-muted'>alredy have an account &nbsp;<Link to={"/register"} className='text-primary fs-3' style={{ cursor: "pointer" }} >Register</Link></span></div>
         </form>
       </div>
     </div>

@@ -53,6 +53,7 @@ function Signup() {
               id="name"
               placeholder="Enter name"
               required
+              value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </div>
@@ -65,6 +66,7 @@ function Signup() {
               id="email"
               placeholder="Enter email"
               required
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
             <div className="form-text">We'll never share your email with anyone else.</div>
@@ -77,6 +79,7 @@ function Signup() {
               className="form-control ps-3"
               id="password"
               placeholder="Password"
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
@@ -89,6 +92,7 @@ function Signup() {
               className="form-control ps-3"
               id="confirmPassword"
               placeholder="confirm Password"
+              value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
