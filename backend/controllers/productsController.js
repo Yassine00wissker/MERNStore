@@ -1,41 +1,25 @@
-const products = [
-  {
-    id: 1,
-    name: "Wireless Headphones",
-    price: 99.99,
-    description: "High-quality Bluetooth headphones with noise cancellation.",
-    image: "/images/headphones.jpg",
-    quantity: 1,
-  },
-  {
-    id: 2,
-    name: "Smart Watch",
-    price: 149.99,
-    description: "Water-resistant smartwatch with fitness tracking.",
-    image: "/images/smartwatch.jpg",
-    quantity: 20,
-  },
-  {
-    id: 3,
-    name: "Gaming Keyboard",
-    price: 79.99,
-    description: "Mechanical RGB gaming keyboard with blue switches.",
-    image: "/images/keyboard.jpg",
-    quantity: 5,
-  }
-]
+import product from "../models/Product.js";
 
-const getProducts = async (req,res) => {
+const getProducts = async (req, res) => {
+  try {
+    const products = await product.find();
     res.send(products)
+  } catch (error) {
+    res.status(500).send({ message: "Error fetching products" });
+  }
+
 };
 
-const getProductById = async (req,res) => {
-    const product = products.find(p => p.id === Number(req.params.id));
-
-    if (product) {
-    res.json(product);
-  } else {
-    res.status(404).json({ message: "Product not found" });
+const getProductById = async (req, res) => {
+  try {
+    const productId = await product.findById(req.params.id);
+    if (productId) {
+      res.json(productId);
+    } else {
+      res.status(404).json({ message: "Product not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching product" });
   }
 }
-export { getProducts, getProductById};
+export { getProducts, getProductById };
