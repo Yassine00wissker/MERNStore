@@ -24,7 +24,15 @@ function CardDisplay({ products }) {
         <Row>
           {products.map((product) => (
             <Col key={product.id} md={4} className="mb-4">
-              <Card className="h-100 shadow-sm">
+              <Card className="h-100 shadow-sm position-relative">
+                <Button
+                    variant="light"
+                    size="lg"
+                    className="position-absolute top-0 end-0 m-2 rounded-circle"
+                    onClick={() => handleAddToCart(product)}
+                  >
+                    🛒
+                  </Button>
                 <Card.Img
                   variant="top"
                   src={product.image}
@@ -35,12 +43,7 @@ function CardDisplay({ products }) {
                   <Card.Title className="text-danger">{product.name}</Card.Title>
                   <Card.Text>{product.description}</Card.Text>
                   <Card.Text className="text-success">${product.price}</Card.Text>
-                  <Button
-                    variant="warning"
-                    onClick={() => handleAddToCart(product)}
-                  >
-                    Add to Cart
-                  </Button>
+                  <Button variant="light" size="lg"  onClick={() => handleAddToCart(product)}>Buy Now</Button>
                 </Card.Body>
               </Card>
             </Col>
