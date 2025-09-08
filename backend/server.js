@@ -5,7 +5,7 @@ import connectDB from "./config/db.js"
 import products from "./routers/products.js"
 import user from "./routers/user.js"
 import cookieParser from "cookie-parser"
-
+import order from "./routers/order.js"
 
 dotenv.config();
 
@@ -20,9 +20,9 @@ app.use(cors({
 }));
 app.use(express.json())
 
-app.use("/api/products",products)
+app.use("/api/products", products)
 app.use("/api/users", user)
-//app.use("/api/users/login", login)
+app.use("/api/order", order)
 //app.use("/api/example", /*importation */)
 
-app.listen(process.env.PORT, () => {console.log(`server is running in ${process.env.PORT}`)})
+app.listen(process.env.PORT, () => { console.log(`server is running in ${process.env.PORT}`) })

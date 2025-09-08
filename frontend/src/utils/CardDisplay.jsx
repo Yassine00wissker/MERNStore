@@ -6,9 +6,15 @@ import "react-toastify/dist/ReactToastify.css";
 
 // Toast container should be mounted once in App.jsx
 import { ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import Checkout from "./Checkout.jsx";
+import { useState } from "react";
 
 function CardDisplay({ products }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [showCheckout, setShowCheckout] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   const handleAddToCart = (product) => {
     dispatch(AddToCart(product));
@@ -18,6 +24,10 @@ function CardDisplay({ products }) {
     });
   };
 
+  const handleBuyNow = (product) => {
+    setSelectedProduct(product);
+    setShowCheckout(true);
+  }
   return (
     <>
       <Container className="mt-4">
@@ -26,13 +36,13 @@ function CardDisplay({ products }) {
             <Col key={product.id} md={4} className="mb-4">
               <Card className="h-100 shadow-sm position-relative">
                 <Button
-                    variant="light"
-                    size="lg"
-                    className="position-absolute top-0 end-0 m-2 rounded-circle"
-                    onClick={() => handleAddToCart(product)}
-                  >
-                    🛒
-                  </Button>
+                  variant="light"
+                  size="lg"
+                  className="position-absolute top-0 end-0 m-2 rounded-circle"
+                  onClick={() => handleAddToCart(product)}
+                >
+                  🛒
+                </Button>
                 <Card.Img
                   variant="top"
                   src={product.image}
@@ -43,7 +53,8 @@ function CardDisplay({ products }) {
                   <Card.Title className="text-danger">{product.name}</Card.Title>
                   <Card.Text>{product.description}</Card.Text>
                   <Card.Text className="text-success">${product.price}</Card.Text>
-                  <Button variant="light" size="lg"  onClick={() => handleAddToCart(product)}>Buy Now</Button>
+                  <Button variant="light" size="lg" onClick={() => handleBuyNow(product)}>Buy Now</Button>
+                  <Checkout show={showCheckout} handleClose={() => setShowCheckout(false)} product={selectedProduct} />
                 </Card.Body>
               </Card>
             </Col>

@@ -1,12 +1,13 @@
 import jwt from "jsonwebtoken";
+import User from "../models/User.js";
 
-const authMiddleware = (req,res,next) => {
+const authMiddleware = async (req,res,next) => {
     const token = req.cookies.token || req.headers['authorization']?.split(' ')[1];
     if(!token) return res.status(401).json({ msg: "Unauthorized" });
 
     try {
         const decoder = jwt.verify(token, process.env.Jwt_SECRET);
-        req.user = decoder.user;
+        req.user = await User.findById(decoder.id).select("-password");
         next();
     } catch (error) {
         return res.status(401).json({ msg: "Unauthorized" });

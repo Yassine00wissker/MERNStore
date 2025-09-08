@@ -5,7 +5,7 @@ const getProducts = async (req, res) => {
     const products = await product.find();
     res.send(products)
   } catch (error) {
-    res.status(500).send({ message: "Error fetching products" });
+    res.status(500).send({ msg: "Error fetching products" });
   }
 
 };
@@ -16,10 +16,10 @@ const getProductById = async (req, res) => {
     if (productId) {
       res.json(productId);
     } else {
-      res.status(404).json({ message: "Product not found" });
+      res.status(404).json({ msg: "Product not found" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error fetching product" });
+    res.status(500).json({ msg: "Error fetching product" });
   }
 }
 export { getProducts, getProductById };

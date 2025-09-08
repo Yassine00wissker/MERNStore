@@ -6,6 +6,8 @@ import Home from './compounds/dashboard/Home.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
 import CartPage from './compounds/dashboard/CartPage.jsx'
 import NaveBar from './compounds/dashboard/NaveBar.jsx'
+import { ToastContainer } from "react-toastify";
+import Checkout from './utils/Checkout.jsx'
 
 function App() {
 
@@ -21,6 +23,7 @@ function App() {
 
       </Routes>
     </AuthProvider>
+    <ToastContainer />
     </>
   )
 }

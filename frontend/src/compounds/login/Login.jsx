@@ -3,6 +3,9 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa'; // FontAwesome icons
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import LoadingPage from '../../services/LoadingPage';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function Login() {
   const { login } = useContext(AuthContext);
   const [email, setEmail] = useState('');
@@ -19,12 +22,17 @@ function Login() {
     e.preventDefault();
     try {
       await login(email, password, rememberMe)
-      alert("Login successful")
+      toast.success(`logged in successfully! 🎉`, {
+        position: "top-right",
+        autoClose: 2000, // disappears after 4s
+      });
       navigate("/products")
 
     } catch (error) {
-      console.error("login error", error.response?.data || error.message);
-      alert("Login failed. Please check your credentials.")
+      toast.error("Login failed. Please check your credentials.", {
+        position: "top-right",
+        autoClose: 2000,
+      });
     }
   }
 
@@ -57,6 +65,7 @@ function Login() {
                 placeholder="Enter email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                required
               />
               <div className="form-text">We'll never share your email with anyone else.</div>
             </div>
@@ -64,6 +73,7 @@ function Login() {
             <div className="mb-3 position-relative">
               <label htmlFor="password" className="form-label fs-4">Password</label>
               <input
+                required
                 type={showPassword ? 'text' : 'password'}
                 className="form-control ps-3"
                 id="password"
