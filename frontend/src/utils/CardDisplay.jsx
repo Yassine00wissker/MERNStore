@@ -14,7 +14,7 @@ function CardDisplay({ products }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showCheckout, setShowCheckout] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState([]);
 
   const handleAddToCart = (product) => {
     dispatch(AddToCart(product));
@@ -54,7 +54,7 @@ function CardDisplay({ products }) {
                   <Card.Text>{product.description}</Card.Text>
                   <Card.Text className="text-success">${product.price}</Card.Text>
                   <Button variant="light" size="lg" onClick={() => handleBuyNow(product)}>Buy Now</Button>
-                  <Checkout show={showCheckout} handleClose={() => setShowCheckout(false)} product={selectedProduct} />
+                  <Checkout show={showCheckout} handleClose={() => setShowCheckout(false)} products={[selectedProduct]} />
                 </Card.Body>
               </Card>
             </Col>
@@ -62,7 +62,8 @@ function CardDisplay({ products }) {
         </Row>
       </Container>
 
-      {/* Toast container should be at the root of the app (App.jsx ideally) */}
+      {/* 
+       container should be at the root of the app (App.jsx ideally) */}
       <ToastContainer />
     </>
   );

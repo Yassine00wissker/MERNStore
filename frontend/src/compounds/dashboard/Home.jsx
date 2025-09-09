@@ -22,7 +22,7 @@ function Home() {
         const res = await Api.get("/products");
         setProducts(res.data)
       } catch (error) {
-        console.error("Error fetching products:", error)
+        console.error("Error fetching products:", error.response.data)
       }
     }
     fetchProducts()

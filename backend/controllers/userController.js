@@ -37,10 +37,7 @@ const login = async (req, res) => {
             process.env.JWT_SECRET,
             { expiresIn: '1h' }
         )
-        res.cookie("token", token, {
-            httpOnly: true,
-            secure: false // Set to true if using HTTPS
-        })
+        
         res.json({
             token, user: {
                 id: user._id,
@@ -54,4 +51,20 @@ const login = async (req, res) => {
         res.status(500).json({ msg: error.message })
     }
 }
-export { login, register }
+
+const getMe = async (req, res) => {
+    try {
+        if (!req.user) return res.status(401).json({ msg: "Unauthorized" })
+        res.json({
+            id: req.user._id,
+            name: req.user.name,
+            email: req.user.email,
+            role: req.user.role,
+        });
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
+
+    }
+}
+
+export { login, register, getMe }

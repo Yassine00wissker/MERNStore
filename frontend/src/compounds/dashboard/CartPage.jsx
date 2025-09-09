@@ -1,12 +1,27 @@
 import { useSelector, useDispatch } from "react-redux";
 import { RemoveFromCart, UpdateQty, ClearCart } from "../cart/CartSlice";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { use, useContext, useEffect, useState } from "react";
+import Checkout from "../../utils/Checkout.jsx";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import { AuthContext } from '../../context/AuthContext';
+import { useNavigate } from "react-router-dom";
 
 function CartPage() {
+  const { user } = useContext(AuthContext);
   const { cartItems } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const [showCheckout, setShowCheckout] = useState(false);
+  const navigate = useNavigate(); 
+  const total = cartItems.reduce((acc, item) => acc + item.price * item.qty, 0);
+  useEffect(() => {
+      if (!user) {
+        // User is not logged in, redirect to login page
+        navigate("/login");
+      }
+    }, [user, navigate]);
 
   return (
     <motion.div
@@ -38,7 +53,7 @@ function CartPage() {
                       <button
                         className="btn btn-outline-secondary"
                         onClick={() =>
-                          dispatch(UpdateQty({ id: item.id, qty: item.qty - 1 }))
+                          dispatch(UpdateQty({ id: item.id, qty:Math.max(1,item.qty - 1) }))
                         }
                       >
                         -
@@ -79,20 +94,23 @@ function CartPage() {
             transition={{ delay: 0.5 }}
           >
             <button
-              className="btn btn-danger"
+              className="btn btn-danger me-3"
               onClick={() => dispatch(ClearCart())}
             >
               Clear Cart
             </button>
+
             <button
-              className="btn btn-secondary ms-4 "
-              onClick={() => dispatch(ClearCart())}
+              className="btn btn-secondary"
+              onClick={() => setShowCheckout(true)}
             >
               Buy All  
             </button>
+            <Checkout show={showCheckout} handleClose={() => setShowCheckout(false)} products={cartItems} />
           </motion.div>
         )}
       </div>
+      <ToastContainer />
     </motion.div>
   );
 }
