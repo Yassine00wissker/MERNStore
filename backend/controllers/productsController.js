@@ -12,7 +12,7 @@ const getProducts = async (req, res) => {
 
 const getProductById = async (req, res) => {
   try {
-    const productId = await product.findById(req.params.id);
+    const productId = await product.findById({_id:req.params.id});
     if (productId) {
       res.json(productId);
     } else {
@@ -58,4 +58,17 @@ const updateProduct = async (req,res) => {
     res.status(500).json({ msg: error.message });
   }
 }
-export { getProducts, getProductById, createProduct, deleteProduct, updateProduct};
+
+const getProductByUserId = async (req, res) => {
+  try {
+    const productId = await product.findById({owner:req.params.id});
+    if (productId) {
+      res.json(productId);
+    } else {
+      res.status(404).json({ msg: "Product not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ msg: "Error fetching product" });
+  }
+}
+export { getProducts, getProductById, createProduct, deleteProduct, updateProduct, getProductByUserId};

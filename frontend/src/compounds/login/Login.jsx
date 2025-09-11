@@ -26,7 +26,7 @@ function Login() {
         position: "top-right",
         autoClose: 2000, // disappears after 4s
       });
-      navigate("/products")
+      navigate("/saller")//to be changed
 
     } catch (error) {
       toast.error("Login failed. Please check your credentials.", {
