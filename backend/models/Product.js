@@ -7,7 +7,7 @@ const productSchema = new mongoose.Schema({
     image: { type: String },
     category: { type: String, required: true },
     quantity: { type: Number, required: true },
-    owner: { type: mongoose.Schema.Types.ObjectId, ref:"user"}
+    owner: { type: mongoose.Schema.Types.ObjectId, ref:"user",required: true}
 }, { timestamps: true })
 
 export default mongoose.model("product", productSchema)

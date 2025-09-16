@@ -1,37 +1,35 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import CardDisplay from '../../utils/CardDisplay';
+import SCardDisplay from './SCardDisplay';
 import Api from '../../services/Api';
 import { AuthContext } from '../../context/AuthContext';
-
 function ListProducts() {
     const navigate = useNavigate();
     const [products, setProducts] = useState([]);
-    const { user } = useContext(AuthContext)
+    const { user, loading } = useContext(AuthContext)
     useEffect(() => {
-        if(!user?._id) return
+        if (loading) return ; // wait until AuthContext finishes loading
+    if (!user) {
+        navigate("/login");
+        return;
+    }
 
-        const fetchProducts = async () => {
-            try {
-                const res = await Api.get(`/products/${user._id}`);
-                setProducts(res.data)
-            } catch (error) {
-                console.error("Error fetching products:", error.response.data)
-            }
+    const fetchProducts = async () => {
+        try {
+            const res = await Api.get(`/products/user/${user.id}`);
+            setProducts(res.data);
+        } catch (err) {
+            console.error("Error fetching products:", err.response?.data || err.message);
         }
-        fetchProducts()
-    }, [user])
-        useEffect(() => {
-            if (!user) {
-              // User is not logged in, redirect to login page
-              navigate("/login");
-            }
-          }, [user, navigate]);
+    };
+
+    fetchProducts();
+}, [user, loading, navigate]);
     return (
         <>
             <button className='btn btn-info text-light rounded-pill'
-            onClick={()=>{navigate("addproduct")}}>add product</button>
-            <CardDisplay products={products}/>
+                onClick={() => { navigate("addproduct") }}>add product</button>
+            <SCardDisplay products={products} setProducts={setProducts} />
         </>
 
     )

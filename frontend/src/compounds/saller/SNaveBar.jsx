@@ -24,7 +24,7 @@ function SNaveBar({ user, logout, cartCount = 0}) {
                             Welcome, <strong>{user?.name}</strong>
                         </span>
 
-                        {/* Cart Icon with Badge */}
+                        {/* products Icon with Badge */}
                         <Nav.Link onClick={() => navigate("/myproducts")} className="position-relative">
                             <AiFillProduct size={28} color="white" />
                         </Nav.Link>

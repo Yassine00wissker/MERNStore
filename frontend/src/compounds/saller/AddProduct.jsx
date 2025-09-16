@@ -6,7 +6,7 @@ import { AuthContext } from '../../context/AuthContext'
 
 function AddProduct() {
     const navigate = useNavigate()
-    const [product,setProduct] = useState({
+    const [product, setProduct] = useState({
         name: "",
         description: "",
         price: "",
@@ -15,13 +15,13 @@ function AddProduct() {
         quantity: "",
         owner: "",
     })
-    const {user} = useContext(AuthContext)
+    const { user } = useContext(AuthContext)
     useEffect(() => {
         if (!user) {
-          // User is not logged in, redirect to login page
-          navigate("/login");
+            // User is not logged in, redirect to login page
+            navigate("/login");
         }
-      }, [user, navigate]);
+    }, [user, navigate]);
     const handleSubmit = async (e) => {
         e.preventDefault();
         product.owner = user._id;
@@ -40,15 +40,15 @@ function AddProduct() {
             });
             console.log(error.data)
         }
-}
-        const handleChange = (e) => {
-            setProduct({
-                ...product,
-                [e.target.name]:e.target.value
-            });
-        };
+    }
+    const handleChange = (e) => {
+        setProduct({
+            ...product,
+            [e.target.name]: e.target.value
+        });
+    };
 
-    
+
     return (
         <>
             <div className="container mt-4">
@@ -66,7 +66,7 @@ function AddProduct() {
                         />
                     </div>
 
-    <div className="mb-3">
+                    <div className="mb-3">
                         <label className="form-label">Description</label>
                         <textarea
                             name="description"
@@ -84,6 +84,9 @@ function AddProduct() {
                             className="form-control"
                             value={product.price}
                             onChange={handleChange}
+                            min="0"
+                            step="0.01"
+
                             required
                         />
                     </div>
@@ -117,13 +120,13 @@ function AddProduct() {
                             className="form-control"
                             value={product.quantity}
                             onChange={handleChange}
+                            min="1"
                             required
                         />
                     </div>
                     <button
                         type="submit"
                         className="btn btn-dark"
-                        onClick={handleSubmit}
                     >
                         Add Product
                     </button>

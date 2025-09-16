@@ -11,6 +11,7 @@ import Checkout from './utils/Checkout.jsx'
 import Dashboard from './compounds/saller/Dashboard.jsx'
 import ListProducts from './compounds/saller/listProducts.jsx'
 import AddProduct from './compounds/saller/AddProduct.jsx'
+import UpdateProduct from './compounds/saller/UpdateProduct.jsx'
 
 function App() {
 
@@ -18,7 +19,7 @@ function App() {
   return (
     <><AuthProvider>
       <Routes>
-        <Route path='/' element={<Home></Home>}></Route>
+        <Route default path='/' element={<Home></Home>}></Route>
         <Route path='/cart' element={<CartPage></CartPage>}></Route>
         <Route path='/login' element={<Login></Login>}></Route>
         <Route path='/register' element={<Signup></Signup>}></Route>
@@ -28,6 +29,7 @@ function App() {
         <Route path='/saller' element={<Dashboard></Dashboard>}></Route>
         <Route path='/myproducts' element={<ListProducts></ListProducts>}></Route>
         <Route path='/myproducts/addproduct' element={<AddProduct></AddProduct>}></Route>
+        <Route path='/myproducts/updateproduct/:id' element={<UpdateProduct></UpdateProduct>}></Route>
 
       </Routes>
     </AuthProvider>
