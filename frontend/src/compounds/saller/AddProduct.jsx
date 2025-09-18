@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import Api from '../../services/Api'
 import { toast } from 'react-toastify'
 import { AuthContext } from '../../context/AuthContext'
+import { IoArrowBackSharp } from "react-icons/io5";
 
 function AddProduct() {
     const navigate = useNavigate()
@@ -25,7 +26,6 @@ function AddProduct() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         product.owner = user._id;
-
         try {
             await Api.post("/products", product);
             toast.success(`+ new product`, {
@@ -51,6 +51,7 @@ function AddProduct() {
 
     return (
         <>
+            <button className='btn btn-lg btn-info text-light m-5' onClick={()=> navigate('/myproducts')}><IoArrowBackSharp /></button>
             <div className="container mt-4">
                 <h2>Add Product</h2>
                 <form onSubmit={handleSubmit} className="mt-3">

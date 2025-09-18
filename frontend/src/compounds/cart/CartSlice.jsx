@@ -28,11 +28,11 @@ const CartSlice = createSlice({
             state.cartItems = [];
         },
         UpdateQty: (state, action) => {
-            const { id, qty } = action.payload;
-            const exist = state.cartItems.find(y => y._id === id);
+            const { _id, qty } = action.payload;
+            const exist = state.cartItems.find(y => y._id === _id);
 
             if (exist) {
-                state.cartItems = state.cartItems.map(y => y._id === id ? { ...y, qty } : y);
+                state.cartItems = state.cartItems.map(y => y._id === _id ? { ...y, qty } : y);
             }
         }
     }

@@ -38,8 +38,9 @@ function CartPage() {
         ) : (
           <ul className="list-group">
             {cartItems.map((item) => (
+              
               <motion.li
-                key={item.id}
+                key={item._id}
                 className="list-group-item"
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -47,13 +48,14 @@ function CartPage() {
               >
                 <div className="d-flex justify-content-between align-items-center">
                   <div>
+                    
                     <h5>{item.name}</h5>
                     <p>Price: ${item.price}</p>
                     <div className="input-group">
                       <button
                         className="btn btn-outline-secondary"
                         onClick={() =>
-                          dispatch(UpdateQty({ id: item.id, qty:Math.max(1,item.qty - 1) }))
+                          dispatch(UpdateQty({ _id: item._id, qty:Math.max(1,item.qty - 1) }))
                         }
                       >
                         -
@@ -67,7 +69,7 @@ function CartPage() {
                       <button
                         className="btn btn-outline-secondary"
                         onClick={() =>
-                          dispatch(UpdateQty({ id: item.id, qty: item.qty + 1 }))
+                          dispatch(UpdateQty({ _id: item._id, qty: item.qty + 1 }))
                         }
                       >
                         +
@@ -76,7 +78,7 @@ function CartPage() {
                   </div>
                   <button
                     className="btn btn-danger"
-                    onClick={() => dispatch(RemoveFromCart(item.id))}
+                    onClick={() => dispatch(RemoveFromCart({_id : item._id}))}
                   >
                     Remove
                   </button>
