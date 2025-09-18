@@ -17,9 +17,10 @@ export const AuthProvider = ({ children }) => {
                     const res = await Api.get("/users/me");
                     setUser(res.data);
                 } catch (err) {
+                    console.error("Failed to restore user:", err);
                     localStorage.removeItem("token");
-          sessionStorage.removeItem("token");
-          setUser(null);
+                    sessionStorage.removeItem("token");
+                    setUser(null);
                 }
             }
             setLoading(false);
@@ -45,7 +46,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ user, login, logout }}>
+        <AuthContext.Provider value={{ user, loading, login, logout }}>
             {children}
         </AuthContext.Provider>
     )

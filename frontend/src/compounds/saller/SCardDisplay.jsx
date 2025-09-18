@@ -1,33 +1,28 @@
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { AddToCart } from "../compounds/cart/CartSlice.jsx"; // lowercase fix
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // Toast container should be mounted once in App.jsx
 import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import Checkout from "./Checkout.jsx";
 import { useState } from "react";
+import Api from "../../services/Api";
 
-function CardDisplay({ products }) {
-  const dispatch = useDispatch();
+
+
+function SCardDisplay({ products, setProducts }) {
   const navigate = useNavigate();
-  const [showCheckout, setShowCheckout] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState([]);
-
-  const handleAddToCart = (product) => {
-    dispatch(AddToCart(product));
-    toast.success(`${product.name} added to cart! 🛒`, {
-      position: "top-right",
-      autoClose: 1500, // disappears after 1.5s
-    });
-  };
-
-  const handleBuyNow = (product) => {
-    setSelectedProduct(product);
-    setShowCheckout(true);
+  const del = async (product) => {
+    try {
+      console.log(product._id)
+      const res = await Api.delete(`/products/${product._id}`)
+      console.log("Deleted:", res.data);
+      setProducts((prev) => prev.filter((p) => p._id !== product._id));
+    } catch (error) {
+      console.error("Error deleting product:", error.response?.data || error.message);
+    }
   }
+
   return (
     <>
       <Container className="mt-4">
@@ -39,9 +34,9 @@ function CardDisplay({ products }) {
                   variant="light"
                   size="lg"
                   className="position-absolute top-0 end-0 m-2 rounded-circle"
-                  onClick={() => handleAddToCart(product)}
+                  onClick={() => del(product)}
                 >
-                  🛒
+                  X
                 </Button>
                 <Card.Img
                   variant="top"
@@ -53,8 +48,7 @@ function CardDisplay({ products }) {
                   <Card.Title className="text-danger">{product.name}</Card.Title>
                   <Card.Text>{product.description}</Card.Text>
                   <Card.Text className="text-success">${product.price}</Card.Text>
-                  <Button variant="light" size="lg" onClick={() => handleBuyNow(product)}>Buy Now</Button>
-                  <Checkout show={showCheckout} handleClose={() => setShowCheckout(false)} products={[selectedProduct]} />
+                  <Button variant="light" size="lg" onClick={() => navigate(`updateproduct/${product._id}`)}>Update Now</Button>
                 </Card.Body>
               </Card>
             </Col>
@@ -69,4 +63,4 @@ function CardDisplay({ products }) {
   );
 }
 
-export default CardDisplay;
+export default SCardDisplay;

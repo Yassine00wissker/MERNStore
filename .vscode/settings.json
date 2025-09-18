@@ -1,0 +1,5 @@
+{
+    "editor.inlineSuggest.edits.allowCodeShifting": "horizontal",
+    "editor.inlineSuggest.edits.showCollapsed": true,
+    "editor.inlineSuggest.edits.renderSideBySide": "auto"
+}
