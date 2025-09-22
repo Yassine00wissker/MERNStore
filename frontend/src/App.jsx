@@ -9,9 +9,10 @@ import NaveBar from './compounds/dashboard/NaveBar.jsx'
 import { ToastContainer } from "react-toastify";
 import Checkout from './utils/Checkout.jsx'
 import Dashboard from './compounds/saller/Dashboard.jsx'
-import ListProducts from './compounds/saller/listProducts.jsx'
+import ListProducts from './compounds/saller/ListProducts.jsx'
 import AddProduct from './compounds/saller/AddProduct.jsx'
 import UpdateProduct from './compounds/saller/UpdateProduct.jsx'
+import Orders from './compounds/saller/Orders.jsx'
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
         <Route path='/myproducts' element={<ListProducts></ListProducts>}></Route>
         <Route path='/myproducts/addproduct' element={<AddProduct></AddProduct>}></Route>
         <Route path='/myproducts/updateproduct/:id' element={<UpdateProduct></UpdateProduct>}></Route>
+        <Route path='/myproducts/orders/:idProduct' element={<Orders></Orders>}></Route>
 
       </Routes>
     </AuthProvider>
