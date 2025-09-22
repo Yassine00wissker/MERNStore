@@ -21,12 +21,14 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(email, password, rememberMe)
+      const loggedInUser = await login(email, password, rememberMe)
       toast.success(`logged in successfully! 🎉`, {
         position: "top-right",
         autoClose: 1000, // disappears after 4s
       });
-      navigate("/saller")//to be changed
+      if (loggedInUser.role === "saller") navigate("/saller");
+      else if (loggedInUser.role === "buyer") navigate("/");
+      else if (loggedInUser.role === "admin") navigate("/saller"); // or admin dashboard
 
     } catch (error) {
       toast.error("Login failed. Please check your credentials.", {

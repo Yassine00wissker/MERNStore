@@ -36,6 +36,8 @@ export const AuthProvider = ({ children }) => {
         if (rememberMe) localStorage.setItem('token', res.data.token)
         else sessionStorage.setItem('token', res.data.token)
         setUser(res.data.user);
+
+        return res.data.user;
     }
 
     const logout = () => {

@@ -13,6 +13,7 @@ import ListProducts from './compounds/saller/ListProducts.jsx'
 import AddProduct from './compounds/saller/AddProduct.jsx'
 import UpdateProduct from './compounds/saller/UpdateProduct.jsx'
 import Orders from './compounds/saller/Orders.jsx'
+import ProtectedRoute from './context/ProtectedRoute.jsx'
 
 function App() {
 
@@ -20,22 +21,34 @@ function App() {
   return (
     <><AuthProvider>
       <Routes>
-        <Route default path='/' element={<Home></Home>}></Route>
-        <Route path='/cart' element={<CartPage></CartPage>}></Route>
+        <Route path='/' element={<Home></Home>}></Route>
         <Route path='/login' element={<Login></Login>}></Route>
         <Route path='/register' element={<Signup></Signup>}></Route>
         <Route path='/products' element={<Home></Home>}></Route>
 
 
-        <Route path='/saller' element={<Dashboard></Dashboard>}></Route>
-        <Route path='/myproducts' element={<ListProducts></ListProducts>}></Route>
-        <Route path='/myproducts/addproduct' element={<AddProduct></AddProduct>}></Route>
-        <Route path='/myproducts/updateproduct/:id' element={<UpdateProduct></UpdateProduct>}></Route>
-        <Route path='/myproducts/orders/:idProduct' element={<Orders></Orders>}></Route>
+        <Route path='/cart' element={<CartPage></CartPage>}></Route>
+
+        <Route path='/saller' element={<ProtectedRoute roles={["seller", "admin"]}>
+          <Dashboard /></ProtectedRoute>
+        } />
+        <Route path='/myproducts' element={<ProtectedRoute roles={["seller", "admin"]}>
+          <ListProducts /></ProtectedRoute>
+        } />
+        <Route path='/myproducts/addproduct' element={<ProtectedRoute roles={["seller", "admin"]}>
+          <AddProduct /></ProtectedRoute>
+        } />
+        <Route path='/myproducts/updateproduct/:id' element={<ProtectedRoute roles={["seller", "admin"]}>
+          <UpdateProduct /></ProtectedRoute>
+        } />
+        <Route path='/myproducts/orders/:idProduct' element={<ProtectedRoute roles={["seller", "admin"]}>
+          <Orders />
+        </ProtectedRoute>
+        } />
 
       </Routes>
     </AuthProvider>
-    <ToastContainer />
+      <ToastContainer />
     </>
   )
 }
