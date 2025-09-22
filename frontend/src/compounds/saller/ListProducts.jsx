@@ -29,7 +29,7 @@ function ListProducts() {
     }, [user, loading, navigate]);
     return (
         <>
-            <div className='d-flex justify-content-between align-items-center m-5' ><button className='btn btn-lg btn-info text-light' onClick={() => navigate('/myproducts')}><IoArrowBackSharp /></button>
+            <div className='d-flex justify-content-between align-items-center m-5' ><button className='btn btn-lg btn-info text-light' onClick={() => navigate('/saller')}><IoArrowBackSharp /></button>
             <button className='btn btn-success btn-lg text-light rounded-pill ms-5  mx-5'
                 onClick={() => { navigate("addproduct") }}>add product</button></div>
             <SCardDisplay products={products} setProducts={setProducts} />

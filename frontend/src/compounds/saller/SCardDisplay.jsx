@@ -48,7 +48,8 @@ function SCardDisplay({ products, setProducts }) {
                   <Card.Title className="text-danger">{product.name}</Card.Title>
                   <Card.Text>{product.description}</Card.Text>
                   <Card.Text className="text-success">${product.price}</Card.Text>
-                  <Button variant="light" size="lg" onClick={() => navigate(`updateproduct/${product._id}`)}>Update Now</Button>
+                  <Button variant="outline-primary" size="lg" onClick={() => navigate(`updateproduct/${product._id}`)}>Update Now</Button>
+                  <Button variant="outline-success" className="mx-5" size="lg" onClick={() => navigate(`/myproducts/orders/${product._id}`)}>Orders</Button>
                 </Card.Body>
               </Card>
             </Col>
