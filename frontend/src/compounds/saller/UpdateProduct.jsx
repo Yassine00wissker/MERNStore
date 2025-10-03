@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import Api from '../../services/Api'
 import { toast } from "react-toastify";
+import { IoArrowBackSharp } from "react-icons/io5";
 
 function UpdateProduct() {
   const { id } = useParams()
@@ -41,23 +42,26 @@ function UpdateProduct() {
     try {
       await Api.put(`/products/${id}`, product)
       toast.success(`product ${product.name} updated `, {
-                position: "top-right",
-                autoClose: 1500, 
-            });
+        position: "top-right",
+        autoClose: 1500,
+      });
       navigate("/myproducts")
     } catch (error) {
       console.error("Error updating product", error.response?.data || error.message)
       toast.error(`Some Error`, {
-                position: "top-right",
-                autoClose: 1500, 
-            });
+        position: "top-right",
+        autoClose: 1500,
+      });
     }
   }
 
   return (
     <>
-      <div className="container mt-4">
-        <h2>Update Product</h2>
+      <div className="container mt-4 ">
+        <button className='btn btn-lg btn-info text-light' onClick={() => navigate('/myproducts')}><IoArrowBackSharp /></button>
+
+        <h2 className='text-center'>Update Product</h2>
+
         <form onSubmit={handleSubmit} className="mt-3">
           <div className="mb-3">
             <label className="form-label">Product Name</label>

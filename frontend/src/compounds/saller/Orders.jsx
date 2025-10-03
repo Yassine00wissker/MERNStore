@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Api from "../../services/Api";
+import { IoArrowBackSharp } from "react-icons/io5";
 
 function Orders() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const { idProduct } = useParams();
-
+  const navigate = useNavigate()
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -48,6 +49,7 @@ function Orders() {
 
   return (
     <div className="container py-4">
+      <button className='btn btn-lg btn-info text-light' onClick={() => navigate('/myproducts')}><IoArrowBackSharp /></button>
       <h1 className="text-center text-primary mb-4">
         Orders for Product {orders[0]?.items?.[0]?.product?.name || ""}
       </h1>
