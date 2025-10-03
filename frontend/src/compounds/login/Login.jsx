@@ -26,9 +26,9 @@ function Login() {
         position: "top-right",
         autoClose: 1000, // disappears after 4s
       });
-      if (loggedInUser.role === "saller") navigate("/saller");
+      if (loggedInUser.role === "seller") navigate("/seller");
       else if (loggedInUser.role === "buyer") navigate("/");
-      else if (loggedInUser.role === "admin") navigate("/saller"); // or admin dashboard
+      else if (loggedInUser.role === "admin") navigate("/admin"); // or admin dashboard
       
     } catch (error) {
       toast.error("Login failed. Please check your credentials.", {

@@ -14,7 +14,7 @@ import AddProduct from './compounds/saller/AddProduct.jsx'
 import UpdateProduct from './compounds/saller/UpdateProduct.jsx'
 import Orders from './compounds/saller/Orders.jsx'
 import ProtectedRoute from './context/ProtectedRoute.jsx'
-
+import  ADashboard  from './compounds/admin/Dashboard.jsx'
 function App() {
 
 
@@ -29,7 +29,7 @@ function App() {
 
         <Route path='/cart' element={<CartPage></CartPage>}></Route>
 
-        <Route path='/saller' element={<ProtectedRoute roles={["seller", "admin"]}>
+        <Route path='/seller' element={<ProtectedRoute roles={["seller"]}>
           <Dashboard /></ProtectedRoute>
         } />
         <Route path='/myproducts' element={<ProtectedRoute roles={["seller", "admin"]}>
@@ -44,6 +44,10 @@ function App() {
         <Route path='/myproducts/orders/:idProduct' element={<ProtectedRoute roles={["seller", "admin"]}>
           <Orders />
         </ProtectedRoute>
+        } />
+
+        <Route path='/admin' element={<ProtectedRoute roles={["admin"]}>
+          <ADashboard/></ProtectedRoute>
         } />
 
       </Routes>

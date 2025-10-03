@@ -37,7 +37,7 @@ const login = async (req, res) => {
             process.env.JWT_SECRET,
             { expiresIn: '1h' }
         )
-        
+
         res.json({
             token, user: {
                 id: user._id,
@@ -67,4 +67,28 @@ const getMe = async (req, res) => {
     }
 }
 
-export { login, register, getMe }
+const deleteUser = async (req, res) => {
+    try {
+        const deleted = await User.findByIdAndDelete(req.params.id)
+        if (!deleted) return res.status(404).json({ msg: "user not found" });
+
+        res.status(200).json({ msg: "User deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ msg: error.message })
+    }
+}
+
+const getUsers = async (req, res) => {
+    try {
+
+        const users = await User.find({
+            role: seller | buyer,
+        })
+        res.send(users)
+    } catch (error) {
+        res.status(500).json({ msg: error.message })
+
+    }
+}
+
+export { login, register, getMe, deleteUser }
