@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ANaveBar from './ANaveBar.jsx';
-
+import UsersList from './UsersList.jsx';
 function Dashboard() {
     const navigate = useNavigate()
     const [products, setProducts] = useState([]);
@@ -33,6 +33,7 @@ function Dashboard() {
     return (
         <>
         <ANaveBar user={user} logout={logout} />
+        <UsersList></UsersList>
         </>
     )
 }

@@ -81,9 +81,7 @@ const deleteUser = async (req, res) => {
 const getUsers = async (req, res) => {
     try {
 
-        const users = await User.find({
-            role: seller | buyer,
-        })
+        const users = await User.find()
         res.send(users)
     } catch (error) {
         res.status(500).json({ msg: error.message })
@@ -91,4 +89,4 @@ const getUsers = async (req, res) => {
     }
 }
 
-export { login, register, getMe, deleteUser }
+export { login, register, getMe, deleteUser, getUsers }

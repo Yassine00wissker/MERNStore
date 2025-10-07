@@ -17,7 +17,7 @@ function ListProducts() {
         }
 
         const fetchProducts = async () => {
-            try {
+            try {   
                 const res = await Api.get(`/products/user/${user.id}`);
                 setProducts(res.data);
             } catch (err) {
