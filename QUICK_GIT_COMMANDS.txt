@@ -1,0 +1,39 @@
+========================================
+QUICK GIT COMMANDS - MERN Store Project
+========================================
+
+FIRST TIME SETUP:
+-----------------
+1. git init
+2. git add .
+3. git commit -m "Initial commit: MERN Store project"
+4. git branch -M main
+5. git remote add origin https://github.com/YOUR_USERNAME/MERNStore.git
+6. git push -u origin main
+
+FOR UPDATES (After making changes):
+------------------------------------
+1. git add .
+2. git commit -m "Description of changes"
+3. git push
+
+TROUBLESHOOTING:
+---------------
+Remove existing remote:
+  git remote remove origin
+
+Add new remote:
+  git remote add origin https://github.com/YOUR_USERNAME/MERNStore.git
+
+Check remote:
+  git remote -v
+
+Check status:
+  git status
+
+View commits:
+  git log
+
+========================================
+NOTE: Replace YOUR_USERNAME with your actual GitHub username!
+========================================

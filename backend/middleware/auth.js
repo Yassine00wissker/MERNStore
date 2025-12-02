@@ -6,10 +6,17 @@ const authMiddleware = async (req,res,next) => {
     if(!token) return res.status(401).json({ msg: "Unauthorized" });
 
     try {
-        const decoder = jwt.verify(token, process.env.Jwt_SECRET);
+        const decoder = jwt.verify(token, process.env.JWT_SECRET);
+        if (!decoder || !decoder.id) {
+            return res.status(401).json({ msg: "Invalid token" });
+        }
         req.user = await User.findById(decoder.id).select("-password");
+        if (!req.user) {
+            return res.status(401).json({ msg: "User not found" });
+        }
         next();
     } catch (error) {
+        console.error("Auth middleware error:", error.message);
         return res.status(401).json({ msg: "Unauthorized" });
     }
 }

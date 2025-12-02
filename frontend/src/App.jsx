@@ -1,11 +1,8 @@
-
 import Login from './compounds/login/Login.jsx'
 import Signup from './compounds/login/Signup.jsx'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Home from './compounds/dashboard/Home.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
-import { ThemeProvider } from './context/ThemeContext.jsx'
-import ThemeToggle from './components/ThemeToggle.jsx'
 import CartPage from './compounds/dashboard/CartPage.jsx'
 import NaveBar from './compounds/dashboard/NaveBar.jsx'
 import { ToastContainer } from "react-toastify";
@@ -16,14 +13,12 @@ import AddProduct from './compounds/saller/AddProduct.jsx'
 import UpdateProduct from './compounds/saller/UpdateProduct.jsx'
 import Orders from './compounds/saller/Orders.jsx'
 import ProtectedRoute from './context/ProtectedRoute.jsx'
-import  ADashboard  from './compounds/admin/Dashboard.jsx'
+import ADashboard from './compounds/admin/Dashboard.jsx'
+
 function App() {
-
-
   return (
-    <><ThemeProvider>
+    <>
       <AuthProvider>
-        <ThemeToggle />
         <Routes>
         <Route path='/' element={<Home></Home>}></Route>
         <Route path='/login' element={<Login></Login>}></Route>
@@ -57,7 +52,6 @@ function App() {
         </Routes>
       </AuthProvider>
       <ToastContainer />
-    </ThemeProvider>
     </>
   )
 }

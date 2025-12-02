@@ -3,6 +3,8 @@ import Api from '../../services/Api.jsx';
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import LoadingPage from '../../services/LoadingPage.jsx';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Signup() {
 
@@ -11,13 +13,36 @@ function Signup() {
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [isLoaded, setIsLoaded] = useState(false)
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+    
+    if (!name || !email || !password || !confirmPassword) {
+      toast.error("Please fill in all fields", {
+        position: "top-right",
+        autoClose: 2000,
+      });
       return;
     }
+    
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match!", {
+        position: "top-right",
+        autoClose: 2000,
+      });
+      return;
+    }
+    
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters long", {
+        position: "top-right",
+        autoClose: 2000,
+      });
+      return;
+    }
+    
+    setLoading(true);
     try {
       const res = await Api.post('/users/register',
         {
@@ -26,10 +51,23 @@ function Signup() {
           password,
         }
       )
-      console.log("register success")
-      navigate('/products');
+      console.log("register success", res.data)
+      toast.success("Registration successful! Redirecting to login...", {
+        position: "top-right",
+        autoClose: 2000,
+      });
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
     } catch (error) {
-      console.error(error.response?.data?.msg || "Registration failed!")
+      console.error("Registration error:", error);
+      const errorMessage = error.response?.data?.msg || error.response?.data?.message || error.message || "Registration failed! Please try again.";
+      toast.error(errorMessage, {
+        position: "top-right",
+        autoClose: 3000,
+      });
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -106,8 +144,16 @@ function Signup() {
               />
             </div>
 
-            <button type="submit" className="btn btn-info w-100 mt-3">
-              Register
+            <button 
+              type="submit" 
+              className="btn btn-info w-100 mt-3"
+              disabled={loading}
+              style={{
+                opacity: loading ? 0.7 : 1,
+                cursor: loading ? 'not-allowed' : 'pointer'
+              }}
+            >
+              {loading ? 'Registering...' : 'Register'}
             </button>
             <div className='fs-5'><span className='text-muted'>Create account &nbsp;<Link to={"/login"} className='text-primary fs-3' style={{ cursor: "pointer" }} >Login</Link></span></div>
           </form>

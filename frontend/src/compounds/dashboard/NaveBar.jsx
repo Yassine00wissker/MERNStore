@@ -96,7 +96,10 @@ function NaveBar({ user, logout, cartCount = 0 }) {
               variant="outline-danger"
               size="sm"
               className="ms-3"
-              onClick={logout}
+              onClick={() => {
+                logout();
+                navigate('/login');
+              }}
               style={{
                 borderRadius: '8px',
                 borderWidth: '2px',

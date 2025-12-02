@@ -1,0 +1,93 @@
+========================================
+  QUICK REFERENCE - Git Commands
+========================================
+
+STEP 1: Navigate to project directory
+--------------------------------------
+cd "c:\Users\SBS\Desktop\mern project\MERNStore"
+
+
+STEP 2: Initialize Git (if not done)
+--------------------------------------
+git init
+
+
+STEP 3: Check status
+--------------------------------------
+git status
+
+
+STEP 4: Add all files
+--------------------------------------
+git add .
+
+
+STEP 5: Create commit
+--------------------------------------
+git commit -m "Initial commit: MERN Store project with authentication, payments, and admin features"
+
+
+STEP 6: Create GitHub Repository
+--------------------------------------
+1. Go to: https://github.com/new
+2. Repository name: MERNStore
+3. Description: "Full-stack MERN marketplace application"
+4. Choose Public or Private
+5. DO NOT check README, .gitignore, or license
+6. Click "Create repository"
+
+
+STEP 7: Add remote (replace YOUR_USERNAME)
+--------------------------------------
+git remote add origin https://github.com/YOUR_USERNAME/MERNStore.git
+
+
+STEP 8: Rename branch to main
+--------------------------------------
+git branch -M main
+
+
+STEP 9: Push to GitHub
+--------------------------------------
+git push -u origin main
+
+
+========================================
+  ALL-IN-ONE COMMAND SEQUENCE
+========================================
+
+Copy and paste these commands one by one:
+
+git init
+git add .
+git commit -m "Initial commit: MERN Store project"
+git remote add origin https://github.com/YOUR_USERNAME/MERNStore.git
+git branch -M main
+git push -u origin main
+
+
+========================================
+  FOR FUTURE UPDATES
+========================================
+
+git add .
+git commit -m "Description of your changes"
+git push
+
+
+========================================
+  TROUBLESHOOTING
+========================================
+
+If remote already exists:
+git remote remove origin
+git remote add origin https://github.com/YOUR_USERNAME/MERNStore.git
+
+Check remote URL:
+git remote -v
+
+View commit history:
+git log
+
+Undo last commit (keep changes):
+git reset --soft HEAD~1

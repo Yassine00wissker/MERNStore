@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
 import LoadingPage from '../../services/LoadingPage';
-import ThemeToggle from '../../components/ThemeToggle';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -50,9 +49,11 @@ function Login() {
       else if (loggedInUser.role === "admin") navigate("/admin");
       
     } catch (error) {
-      toast.error("Login failed. Please check your credentials.", {
+      console.error("Login error:", error);
+      const errorMessage = error.message || "Login failed. Please check your credentials.";
+      toast.error(errorMessage, {
         position: "top-right",
-        autoClose: 2000,
+        autoClose: 3000,
       });
     }
   }
