@@ -35,6 +35,7 @@ const orderSchema = new mongoose.Schema({
             required: true
         }
     },
+    // basic payment metadata
     paymentInfo: {
         method: {
             type: String,
@@ -45,9 +46,23 @@ const orderSchema = new mongoose.Schema({
             type: String,
             enum: ["pending", "completed", "failed"],
             default: "pending"
+        },
+        // optional raw confirmation data (for PayPal or others)
+        confirmation: {
+            type: Object,
+            default: null
         }
     },
+    // shipping / fulfilment status
     status: { type: String, enum: ["pending", "shipped", "delivered"], default: "pending" },
     totalprice: { type: Number, required: true },
+    // high-level paid/unpaid flags
+    isPaid: {
+        type: Boolean,
+        default: false
+    },
+    paidAt: {
+        type: Date
+    }
 }, { timestamps: true })
 export default mongoose.model("order", orderSchema); 

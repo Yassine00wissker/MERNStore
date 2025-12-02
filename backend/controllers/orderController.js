@@ -98,4 +98,20 @@ const updatetOrderStatus = async (req,res) => {
     }
 }
 
-export { createOrder , getOrdersByProduct, updatetOrderStatus } 
+// Get all orders (for admin)
+const getAllOrders = async (req, res) => {
+    try {
+        const orders = await order.find()
+            .populate("user", "name email")
+            .populate("items.product", "name price image category")
+            .sort({ createdAt: -1 })
+            .select("-__v");
+
+        res.json(orders);
+    } catch (error) {
+        console.error("Error fetching all orders:", error);
+        res.status(500).json({ msg: "Error fetching orders", error: error.message });
+    }
+}
+
+export { createOrder , getOrdersByProduct, updatetOrderStatus, getAllOrders } 

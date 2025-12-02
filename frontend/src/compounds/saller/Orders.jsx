@@ -66,6 +66,23 @@ function Orders() {
                 <div className="card-body d-flex flex-column">
                   <h5 className="card-title">{`Order #${o._id.slice(-6)}`}</h5>
 
+                  {/* Payment Status */}
+                  <div className="mb-2">
+                    <span
+                      className={`badge ${
+                        o.isPaid ? "bg-success" : "bg-warning"
+                      }`}
+                    >
+                      {o.isPaid ? "✓ Paid" : "⚠ Unpaid"}
+                    </span>
+                    {o.isPaid && o.paidAt && (
+                      <small className="text-muted ms-2">
+                        Paid on {new Date(o.paidAt).toLocaleDateString()}
+                      </small>
+                    )}
+                  </div>
+
+                  {/* Order Status */}
                   <div className="mb-3 d-flex align-items-center flex-wrap">
                     <label className="me-2 mb-0">Status:</label>
                     <select

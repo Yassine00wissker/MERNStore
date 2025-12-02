@@ -4,6 +4,8 @@ import Signup from './compounds/login/Signup.jsx'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Home from './compounds/dashboard/Home.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
+import { ThemeProvider } from './context/ThemeContext.jsx'
+import ThemeToggle from './components/ThemeToggle.jsx'
 import CartPage from './compounds/dashboard/CartPage.jsx'
 import NaveBar from './compounds/dashboard/NaveBar.jsx'
 import { ToastContainer } from "react-toastify";
@@ -19,8 +21,10 @@ function App() {
 
 
   return (
-    <><AuthProvider>
-      <Routes>
+    <><ThemeProvider>
+      <AuthProvider>
+        <ThemeToggle />
+        <Routes>
         <Route path='/' element={<Home></Home>}></Route>
         <Route path='/login' element={<Login></Login>}></Route>
         <Route path='/register' element={<Signup></Signup>}></Route>
@@ -50,9 +54,10 @@ function App() {
           <ADashboard/></ProtectedRoute>
         } />
 
-      </Routes>
-    </AuthProvider>
+        </Routes>
+      </AuthProvider>
       <ToastContainer />
+    </ThemeProvider>
     </>
   )
 }

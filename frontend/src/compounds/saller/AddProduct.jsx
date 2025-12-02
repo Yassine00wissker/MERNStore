@@ -16,6 +16,8 @@ function AddProduct() {
         quantity: "",
         owner: "",
     })
+    const [imageFile, setImageFile] = useState(null);
+    const [imagePreview, setImagePreview] = useState("");
     const { user } = useContext(AuthContext)
     useEffect(() => {
         if (!user) {
@@ -25,27 +27,55 @@ function AddProduct() {
     }, [user, navigate]);
     const handleSubmit = async (e) => {
         e.preventDefault();
-        product.owner = user._id;
         try {
-            await Api.post("/products", product);
+            const formData = new FormData();
+            formData.append("name", product.name);
+            formData.append("description", product.description);
+            formData.append("price", product.price);
+            formData.append("category", product.category);
+            formData.append("quantity", product.quantity);
+            
+            // If file is selected, append it; otherwise append image URL
+            if (imageFile) {
+                formData.append("image", imageFile);
+            } else if (product.image) {
+                formData.append("image", product.image);
+            }
+            
+            await Api.post("/products", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
             toast.success(`+ new product`, {
                 position: "top-right",
-                autoClose: 1500, // disappears after 4s
+                autoClose: 1500,
             });
             navigate("/myproducts");
         } catch (error) {
             toast.error(`product not added`, {
                 position: "top-right",
-                autoClose: 1500, // disappears after 4s
+                autoClose: 1500,
             });
-            console.log(error.data)
+            console.log(error.response?.data || error.message)
         }
     }
     const handleChange = (e) => {
-        setProduct({
-            ...product,
-            [e.target.name]: e.target.value
-        });
+        if (e.target.name === "image" && e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            setImageFile(file);
+            // Create preview
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            setProduct({
+                ...product,
+                [e.target.name]: e.target.value
+            });
+        }
     };
 
 
@@ -92,15 +122,37 @@ function AddProduct() {
                         />
                     </div>
                     <div className="mb-3">
-                        <label className="form-label">Image URL</label>
+                        <label className="form-label">Product Image</label>
                         <input
-                            type="text"
+                            type="file"
                             name="image"
                             className="form-control"
-                            value={product.image}
+                            accept="image/*"
                             onChange={handleChange}
-                            required
                         />
+                        {imagePreview && (
+                            <div className="mt-2">
+                                <img 
+                                    src={imagePreview} 
+                                    alt="Preview" 
+                                    style={{ maxWidth: "200px", maxHeight: "200px", objectFit: "cover" }}
+                                    className="img-thumbnail"
+                                />
+                            </div>
+                        )}
+                        {!imageFile && (
+                            <div className="mt-2">
+                                <label className="form-label">Or enter Image URL</label>
+                                <input
+                                    type="text"
+                                    name="image"
+                                    className="form-control"
+                                    value={product.image}
+                                    onChange={handleChange}
+                                    placeholder="https://example.com/image.jpg"
+                                />
+                            </div>
+                        )}
                     </div>
                     <div className="mb-3">
                         <label className="form-label">Category</label>

@@ -43,6 +43,10 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
         localStorage.removeItem('token');
         sessionStorage.removeItem('token');
+        // Note: We keep 'rememberedEmail' and 'rememberMe' so user doesn't have to re-enter email
+        // If you want to clear them on logout, uncomment the lines below:
+        // localStorage.removeItem('rememberedEmail');
+        // localStorage.removeItem('rememberMe');
         setUser(null);
         navigate('/login');
     }
