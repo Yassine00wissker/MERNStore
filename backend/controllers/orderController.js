@@ -36,13 +36,14 @@ const createOrder = async (req, res) => {
 
         await newOrder.save();
         console.log("Order created:", newOrder);
+        console.log("Incoming order:", req.body);
+        console.log("User:", req.user);
 
         res.status(201).json({ message: "Order created successfully", order: newOrder });
     } catch (error) {
+        console.error("Order creation error:", error);
         res.status(500).json({ message: "Internal server error", error: error.message });
     }
-    console.log("Incoming order:", req.body);
-    console.log("User:", req.user);
 }
 
 const getOrdersByProduct = async (req, res) => {
